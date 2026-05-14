@@ -54,3 +54,6 @@ compile_commands.json
 *creator.user*
 
 *_qmlcache.qrc
+
+# Generated theme (produced by scripts/generate-theme.sh, not manually edited)
+services/GeneratedTheme.qml

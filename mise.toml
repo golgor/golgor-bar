@@ -1,0 +1,47 @@
+[tasks.install]
+description = "Install golgor-bar: symlink, hooks, and generate initial theme"
+dir = "{{config_root}}"
+run = """
+#!/bin/bash
+set -euo pipefail
+
+REPO_DIR="$PWD"
+
+echo "==> Symlinking to ~/.config/quickshell/golgor-bar"
+mkdir -p ~/.config/quickshell
+ln -sfn "$REPO_DIR" ~/.config/quickshell/golgor-bar
+
+echo "==> Installing Omarchy hooks"
+mkdir -p ~/.config/omarchy/hooks/theme-set.d
+mkdir -p ~/.config/omarchy/hooks/font-set.d
+
+ln -sfn "$REPO_DIR/scripts/generate-theme.sh" ~/.config/omarchy/hooks/theme-set.d/golgor-bar
+ln -sfn "$REPO_DIR/scripts/generate-theme.sh" ~/.config/omarchy/hooks/font-set.d/golgor-bar
+
+echo "==> Generating initial theme"
+"$REPO_DIR/scripts/generate-theme.sh"
+
+echo "==> Done. Launch with: qs -c golgor-bar"
+"""
+
+[tasks.uninstall]
+description = "Remove golgor-bar symlinks and hooks"
+dir = "{{config_root}}"
+run = """
+#!/bin/bash
+set -euo pipefail
+
+echo "==> Removing Quickshell symlink"
+rm -f ~/.config/quickshell/golgor-bar
+
+echo "==> Removing Omarchy hooks"
+rm -f ~/.config/omarchy/hooks/theme-set.d/golgor-bar
+rm -f ~/.config/omarchy/hooks/font-set.d/golgor-bar
+
+echo "==> Done."
+"""
+
+[tasks.generate-theme]
+description = "Regenerate theme from current Omarchy theme"
+dir = "{{config_root}}"
+run = "scripts/generate-theme.sh"
