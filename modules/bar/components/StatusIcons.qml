@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Quickshell
+import Quickshell.Io
 import "root:services"
 
 RowLayout {
@@ -17,7 +18,8 @@ RowLayout {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-bluetooth"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: bluetoothProc.running = true
         }
     }
 
@@ -30,7 +32,8 @@ RowLayout {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-wifi"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: wifiProc.running = true
         }
     }
 
@@ -43,7 +46,8 @@ RowLayout {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-audio"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: audioProc.running = true
         }
     }
 
@@ -56,7 +60,28 @@ RowLayout {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-or-focus-tui", "btop"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: btopProc.running = true
         }
+    }
+
+    Process {
+        id: bluetoothProc
+        command: ["sh", "-lc", "omarchy launch bluetooth"]
+    }
+
+    Process {
+        id: wifiProc
+        command: ["sh", "-lc", "omarchy launch wifi"]
+    }
+
+    Process {
+        id: audioProc
+        command: ["sh", "-lc", "omarchy launch audio"]
+    }
+
+    Process {
+        id: btopProc
+        command: ["sh", "-lc", "omarchy launch or focus tui btop"]
     }
 }
