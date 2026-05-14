@@ -2,6 +2,11 @@
 
 Features discussed during design but explicitly deferred from v1.
 
+## Priority
+- **Fix StatusIcons Process error** — clicking icons throws `ReferenceError: Process is not defined`. `Process` is not a Quickshell global; need to use the correct API (likely `Quickshell.io` process launching). Some icons also don't trigger any action at all.
+- **Larger status icons / thicker bar** — tray icons and status icons are too small at current 32px bar height. Consider increasing bar height and/or icon font size.
+- **Unified trigger system** — design a pattern for actions that can be triggered by both click and hotkey. Hotkeys should be customizable (in-code constants are fine for v1). Applies to: calendar toggle, status icon launchers, workspace switching, future popouts.
+
 ## Bar Enhancements
 - **Auto-hide bar mode** — bar slides away, appears on hover/gesture. Design Bar/BarWrapper split to support this later.
 - **Window icons in workspace indicators** — show app icons for windows in each workspace (requires app-to-icon mapping).
