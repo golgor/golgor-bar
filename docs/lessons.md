@@ -30,6 +30,13 @@ Hard-won knowledge from building golgor-bar. Read this before making changes.
 
 - **Qt 6.7+ supports `topLeftRadius`, `topRightRadius`, `bottomLeftRadius`, `bottomRightRadius`** on Rectangle. No need for stacked rectangles or clip hacks to get flat-top + rounded-bottom shapes.
 
+### Process (launching commands)
+
+- **`Process` is a QML type, not a global function** — it lives in `Quickshell.Io`. You must `import Quickshell.Io` and declare it as a component. There is no `Process.exec()` global.
+- **Trigger with `running = true`** — declare `Process { id: foo; command: ["sh", "-lc", "..."] }`, then `foo.running = true` to launch. Setting `running = false` sends SIGTERM.
+- **Commands are NOT run in a shell** — each argument must be a separate list element. Use `["sh", "-c", "your command"]` or `["sh", "-lc", "..."]` (login shell) for shell features.
+- **Use `startDetached()` for fire-and-forget** — the subprocess survives Quickshell restarts/reloads.
+
 ### Properties
 
 - **`visible` is FINAL on Item** — you cannot redeclare `property bool visible` on an Item subclass. Use a custom property like `showing` and bind `visible: showing`.
