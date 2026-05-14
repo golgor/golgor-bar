@@ -18,13 +18,7 @@ PanelWindow {
     implicitHeight: 32
     color: Theme.background
 
-    exclusiveZone: implicitHeight + margins.top + margins.bottom
-
-    margins {
-        top: 4
-        left: 8
-        right: 8
-    }
+    exclusiveZone: implicitHeight + 4
     WlrLayershell.namespace: "golgor-bar"
     WlrLayershell.layer: WlrLayer.Top
 
@@ -43,6 +37,7 @@ PanelWindow {
         // Center section
         Clock {
             id: clock
+            onClicked: calendarPopout.toggle()
         }
 
         // Right spacer
@@ -55,6 +50,5 @@ PanelWindow {
 
     Calendar {
         id: calendarPopout
-        anchor: clock
     }
 }

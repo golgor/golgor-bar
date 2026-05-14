@@ -4,9 +4,11 @@ A personal Quickshell-based desktop shell for Hyprland, replacing Waybar. Keyboa
 
 Read `CONTEXT.md` first — it defines the project's terminology. Use those terms precisely.
 
-## Omarchy integration
+## Skills
 
-This project runs on Omarchy Linux and integrates with it (theme hooks, launch scripts, font sync). **When working on anything Omarchy-related** (hooks, theme files, Omarchy scripts, system config), **check for and use the `/omarchy` skill** — it covers safe customization patterns, config locations, hook conventions, and critical safety rules for the Omarchy system.
+- **`/omarchy`** — REQUIRED when working on anything Omarchy-related (hooks, theme files, launch scripts, system config). Covers safe customization patterns, config locations, and critical safety rules.
+- **`/qt-qml`** — REQUIRED when writing, reviewing, or refactoring QML code. Corrects systematic LLM biases around bindings, scoping, layouts, and performance.
+- **`/qt-qml-review`** — Use for code review. 47+ deterministic lint rules plus deep analysis for bindings, layout, loaders, delegates, states, and performance.
 
 ## Architecture
 
@@ -26,6 +28,10 @@ Supporting:
 ## Entry point
 
 `shell.qml` is the root. It instantiates modules inside a `ShellRoot`.
+
+## Lessons learned (see `docs/lessons.md`)
+
+Hard-won knowledge about Quickshell quirks, Wayland layer shell positioning, and Omarchy integration. **Read this before making changes** — it will save you from repeating mistakes.
 
 ## Key decisions (see `docs/adr/`)
 

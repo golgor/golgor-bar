@@ -9,7 +9,16 @@ Item {
     signal clicked()
 
     implicitWidth: clockLabel.implicitWidth
-    implicitHeight: bar.height
+    implicitHeight: parent.height
+
+    property date now: new Date()
+
+    Timer {
+        interval: 1000
+        running: true
+        repeat: true
+        onTriggered: root.now = new Date()
+    }
 
     Text {
         id: clockLabel
@@ -20,22 +29,9 @@ Item {
         font.pixelSize: Theme.fontSize
 
         text: {
-            const now = new Date();
-            const locale = Qt.locale();
-            const weekNum = DateUtils.weekNumber(now);
-            return Qt.formatDateTime(now, "dddd dd MMMM yyyy") + " | W" + weekNum + " · " + Qt.formatDateTime(now, "hh:mm");
+            const weekNum = DateUtils.weekNumber(root.now);
+            return Qt.formatDateTime(root.now, "dddd dd MMMM yyyy") + " | W" + weekNum + " · " + Qt.formatDateTime(root.now, "hh:mm");
         }
-    }
-
-    Timer {
-        interval: 1000
-        running: true
-        repeat: true
-        onTriggered: clockLabel.text = Qt.binding(() => {
-            const now = new Date();
-            const weekNum = DateUtils.weekNumber(now);
-            return Qt.formatDateTime(now, "dddd dd MMMM yyyy") + " | W" + weekNum + " · " + Qt.formatDateTime(now, "hh:mm");
-        })
     }
 
     MouseArea {
