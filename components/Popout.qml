@@ -43,6 +43,15 @@ PanelWindow {
     // Content padding
     property real contentPadding: 16
 
+    // Position along edge axis:
+    // - top edge: 0 = left, 1 = right
+    // - left/right edge: 0 = top, 1 = bottom
+    property real positionRatio: 0.5
+    property real positionOffsetPx: 0
+
+    // Distance inward from the attached edge
+    property real edgeInsetPx: 0
+
     // Parent window to include in focus grab (e.g. the bar)
     // Prevents clicks on the parent from dismissing the popout
     property var parentWindow: null
@@ -54,6 +63,10 @@ PanelWindow {
 
     // Content slot
     default property alias content: contentSlot.data
+
+    function clamp(value: real, minValue: real, maxValue: real): real {
+        return Math.max(minValue, Math.min(maxValue, value));
+    }
 
     // --- Window setup ---
 
@@ -112,23 +125,33 @@ PanelWindow {
         width: contentSlot.implicitWidth + root.contentPadding * 2
         height: contentSlot.implicitHeight + root.contentPadding * 2
 
-        // Position: flush against the specified edge
+        // Position: edge-attached with configurable axis placement
         x: {
+            const maxX = Math.max(0, parent.width - width);
+            const clampedRatio = root.clamp(root.positionRatio, 0, 1);
+
             switch (root.edge) {
             case root.edgeRight:
-                return parent.width - width;
+                return parent.width - width - root.edgeInsetPx;
             case root.edgeLeft:
-                return 0;
-            default:
-                return (parent.width - width) / 2;
+                return root.edgeInsetPx;
+            default: {
+                const centerX = parent.width * clampedRatio + root.positionOffsetPx;
+                return root.clamp(centerX - width / 2, 0, maxX);
+            }
             }
         }
         y: {
+            const maxY = Math.max(0, parent.height - height);
+            const clampedRatio = root.clamp(root.positionRatio, 0, 1);
+
             switch (root.edge) {
             case root.edgeTop:
-                return Theme.barHeight - 1;
-            default:
-                return (parent.height - height) / 2;
+                return Theme.barHeight - 1 + root.edgeInsetPx;
+            default: {
+                const centerY = parent.height * clampedRatio + root.positionOffsetPx;
+                return root.clamp(centerY - height / 2, 0, maxY);
+            }
             }
         }
 
