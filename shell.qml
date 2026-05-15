@@ -1,3 +1,5 @@
+//@ pragma UseQApplication
+
 import "modules/bar"
 import Quickshell
 import Quickshell.Hyprland

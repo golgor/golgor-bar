@@ -13,7 +13,6 @@ Features discussed during design but explicitly deferred from v1.
 - **Window icons in workspace indicators** — show app icons for windows in each workspace (requires app-to-icon mapping).
 - **Special workspaces** — show Super+S (Slack) and Super+Q (Altus/WhatsApp) scratchpads in the bar.
 - **Tray popout** — expandable tray with richer per-item info.
-- **Logo/menu button** — session menu (lock/logout/shutdown) trigger.
 
 ## Indicators
 - **Weather** — weather status in bar, similar to current Omarchy weather module.
