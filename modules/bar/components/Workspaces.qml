@@ -89,7 +89,7 @@ RowLayout {
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.iconSize
                 font.bold: specialDelegate.isShown
-                opacity: specialDelegate.isShown ? 1.0 : 0.7
+                opacity: 1.0
             }
 
             MouseArea {
