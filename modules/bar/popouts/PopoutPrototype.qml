@@ -9,6 +9,8 @@ import "root:services"
 Item {
     id: root
 
+    property bool openedByHover: false
+
     SharedComponents.Popout {
         edge: edgeRight
         popoutName: "proto-right"
@@ -20,6 +22,23 @@ Item {
         cornerRadius: 16
         organicRadius: 6
 
+        hoverTriggerEnabled: true
+        hoverTriggerDepthPxHidden: 20
+        hoverTriggerExpandedWhenShown: true
+        hoverOpenDelayMs: 80
+
+        onHoverTriggered: {
+            root.openedByHover = true;
+            Actions.showPrototype();
+        }
+        onHoverExited: {
+            if (root.openedByHover)
+                Actions.hidePrototype();
+        }
+        onShowingChanged: {
+            if (!showing)
+                root.openedByHover = false;
+        }
         onDismissed: Actions.prototypeVisible = false
 
         ColumnLayout {

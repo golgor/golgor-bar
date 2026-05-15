@@ -61,6 +61,13 @@ PanelWindow {
     // Emitted when focus grab clears — caller should set showing = false
     signal dismissed()
 
+    property bool hoverTriggerEnabled: false
+    property real hoverTriggerDepthPxHidden: 20
+    property bool hoverTriggerExpandedWhenShown: true
+    property int hoverOpenDelayMs: 80
+    signal hoverTriggered()
+    signal hoverExited()
+
     // Content slot
     default property alias content: contentSlot.data
 
@@ -70,7 +77,46 @@ PanelWindow {
 
     // --- Window setup ---
 
-    visible: root.windowVisible
+    property bool hoverCloseArmed: false
+
+    readonly property real triggerDepthPx: {
+        if (!root.hoverTriggerEnabled)
+            return 0;
+
+        if (!root.showing)
+            return root.hoverTriggerDepthPxHidden;
+
+        if (!root.hoverTriggerExpandedWhenShown)
+            return root.hoverTriggerDepthPxHidden;
+
+        if (root.edge === root.edgeTop)
+            return popoutBg.height;
+        return popoutBg.width;
+    }
+
+    readonly property real animatedPopoutX: popoutBg.x + slideTransform.x
+    readonly property real animatedPopoutY: popoutBg.y + slideTransform.y
+    readonly property real animatedPopoutW: popoutBg.width
+    readonly property real animatedPopoutH: popoutBg.height
+
+    readonly property real triggerBasePopoutX: root.showing || root.windowVisible ? root.animatedPopoutX : popoutBg.x
+    readonly property real triggerBasePopoutY: root.showing || root.windowVisible ? root.animatedPopoutY : popoutBg.y
+    readonly property real triggerBasePopoutW: root.showing || root.windowVisible ? root.animatedPopoutW : popoutBg.width
+    readonly property real triggerBasePopoutH: root.showing || root.windowVisible ? root.animatedPopoutH : popoutBg.height
+
+    readonly property real triggerX: {
+        switch (root.edge) {
+        case root.edgeRight:
+            return root.triggerBasePopoutX + root.triggerBasePopoutW - root.triggerW;
+        default:
+            return root.triggerBasePopoutX;
+        }
+    }
+    readonly property real triggerY: root.triggerBasePopoutY
+    readonly property real triggerW: Math.max(0, root.edge === root.edgeTop ? root.triggerBasePopoutW : root.triggerDepthPx)
+    readonly property real triggerH: Math.max(0, root.edge === root.edgeTop ? root.triggerDepthPx : root.triggerBasePopoutH)
+
+    visible: root.windowVisible || root.hoverTriggerEnabled
 
     anchors {
         top: true
@@ -86,10 +132,10 @@ PanelWindow {
     WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
     mask: Region {
-        x: popoutBg.x + slideTransform.x
-        y: popoutBg.y + slideTransform.y
-        width: popoutBg.width
-        height: popoutBg.height
+        x: root.showing || root.windowVisible ? root.animatedPopoutX : root.triggerX
+        y: root.showing || root.windowVisible ? root.animatedPopoutY : root.triggerY
+        width: root.showing || root.windowVisible ? root.animatedPopoutW : root.triggerW
+        height: root.showing || root.windowVisible ? root.animatedPopoutH : root.triggerH
     }
 
     HyprlandFocusGrab {
@@ -108,12 +154,65 @@ PanelWindow {
         }
     }
 
+    Timer {
+        id: hoverOpenTimer
+        interval: root.hoverOpenDelayMs
+        repeat: false
+        onTriggered: root.hoverTriggered()
+    }
+
+    Timer {
+        id: hoverCloseArmTimer
+        interval: 350
+        repeat: false
+        onTriggered: root.hoverCloseArmed = true
+    }
+
     onShowingChanged: {
+        hoverOpenTimer.stop();
         if (showing) {
             hideTimer.stop();
             windowVisible = true;
+            hoverCloseArmed = false;
+            hoverCloseArmTimer.restart();
         } else {
+            hoverCloseArmTimer.stop();
+            hoverCloseArmed = false;
             hideTimer.restart();
+        }
+    }
+
+    MouseArea {
+        id: hiddenHoverArea
+
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
+        enabled: root.hoverTriggerEnabled && !root.showing && !root.windowVisible
+
+        x: root.triggerX
+        y: root.triggerY
+        width: root.triggerW
+        height: root.triggerH
+
+        onEntered: hoverOpenTimer.restart()
+        onExited: hoverOpenTimer.stop()
+    }
+
+    MouseArea {
+        id: shownHoverArea
+
+        hoverEnabled: true
+        acceptedButtons: Qt.NoButton
+        enabled: root.hoverTriggerEnabled && root.showing
+
+        x: root.triggerX
+        y: root.triggerY
+        width: root.triggerW
+        height: root.triggerH
+
+        onExited: {
+            if (root.hoverCloseArmed)
+                root.hoverExited();
         }
     }
 
