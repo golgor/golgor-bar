@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
 import "root:services"
 
 RowLayout {
@@ -13,11 +12,12 @@ RowLayout {
         text: ""
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-bluetooth"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Actions.launchBluetooth()
         }
     }
 
@@ -26,11 +26,12 @@ RowLayout {
         text: "󰤨"
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-wifi"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Actions.launchWifi()
         }
     }
 
@@ -39,11 +40,12 @@ RowLayout {
         text: ""
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-audio"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Actions.launchAudio()
         }
     }
 
@@ -52,11 +54,12 @@ RowLayout {
         text: "󰍛"
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
-            onClicked: Process.exec(["omarchy-launch-or-focus-tui", "btop"])
+            cursorShape: Qt.PointingHandCursor
+            onClicked: Actions.launchBtop()
         }
     }
 }

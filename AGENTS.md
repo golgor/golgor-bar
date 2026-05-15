@@ -10,6 +10,12 @@ Read `CONTEXT.md` first — it defines the project's terminology. Use those term
 - **`/qt-qml`** — REQUIRED when writing, reviewing, or refactoring QML code. Corrects systematic LLM biases around bindings, scoping, layouts, and performance.
 - **`/qt-qml-review`** — Use for code review. 47+ deterministic lint rules plus deep analysis for bindings, layout, loaders, delegates, states, and performance.
 
+## Reference sources
+
+- **Qt documentation MCP** — configured in `.mcp.json`. Use the `qt_docs_qt_documentation_search` tool to look up Qt/QML API docs.
+- **Quickshell source** — at `../quickshell/`. The C++ headers in `src/` are the authoritative API reference for Quickshell types (e.g. `src/io/process.hpp` for `Process`). Check here when documentation is unclear.
+- **Caelestia reference shell** — at `../shell/`. A mature Quickshell-based shell to study patterns from.
+
 ## Architecture
 
 Four layers, dependency flows downward only:

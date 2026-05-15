@@ -2,6 +2,12 @@
 
 Features discussed during design but explicitly deferred from v1.
 
+## Priority
+- ~~**Fix StatusIcons Process error**~~ — ✅ Fixed. `Process` from `Quickshell.Io` is now used correctly.
+- ~~**Larger status icons / thicker bar**~~ — ✅ Bar height increased to 40px (`Theme.barHeight`), icons to 22px (`Theme.iconSize`).
+- ~~**Visually separate system tray from status icons**~~ — ✅ Thin vertical divider (`components/Divider.qml`) between tray and status icons, auto-hides when tray is empty.
+- ~~**Unified trigger system**~~ — ✅ `services/Actions.qml` singleton owns all actions. `GlobalShortcut` + `IpcHandler` in `shell.qml` provide hotkey and IPC triggers alongside click handlers.
+
 ## Bar Enhancements
 - **Auto-hide bar mode** — bar slides away, appears on hover/gesture. Design Bar/BarWrapper split to support this later.
 - **Window icons in workspace indicators** — show app icons for windows in each workspace (requires app-to-icon mapping).
