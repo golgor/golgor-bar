@@ -78,9 +78,9 @@ RowLayout {
                 text: {
                     switch (specialDelegate.specialName) {
                     case "slack":
-                        return "\u{f0372}"; // 󰍲 nf-md-slack
+                        return "\ue8a4"; // nf-dev-slack
                     case "altus":
-                        return "\u{f05a3}"; // 󰖣 nf-md-whatsapp
+                        return "\uf232"; // nf-fa-whatsapp
                     default:
                         return specialDelegate.specialName[0].toUpperCase();
                     }
@@ -89,7 +89,7 @@ RowLayout {
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.iconSize
                 font.bold: specialDelegate.isShown
-                opacity: specialDelegate.isShown ? 1.0 : 0.6
+                opacity: specialDelegate.isShown ? 1.0 : 0.7
             }
 
             MouseArea {
