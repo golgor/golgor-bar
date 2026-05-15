@@ -30,7 +30,7 @@ Example `hyprland.conf` line:
 bind = SUPER, C, global, golgor-bar:toggleCalendar
 ```
 
-> **Note:** Launcher actions (Bluetooth, WiFi, Audio, btop) are not registered as GlobalShortcuts because Omarchy already provides system-level keybinds for those. They are available via click and IPC only.
+> **Note:** Launcher actions (Bluetooth, Wifi, Audio, btop) are not registered as GlobalShortcuts because Omarchy already provides system-level keybinds for those. They are available via click and IPC only.
 
 ### IPC
 
