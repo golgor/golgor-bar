@@ -9,8 +9,31 @@ QtObject {
     // --- Calendar ---
     property bool calendarVisible: false
 
+    // --- Prototype (throwaway — delete when done) ---
+    property bool prototypeVisible: false
+
     function toggleCalendar(): void {
         calendarVisible = !calendarVisible;
+    }
+
+    readonly property int prototypeToggleDebounceMs: 250 // Prevent duplicate global shortcut toggle events.
+    property double _lastPrototypeToggleMs: 0
+
+    function togglePrototype(): void {
+        const now = Date.now();
+        if (now - _lastPrototypeToggleMs < prototypeToggleDebounceMs)
+            return;
+
+        _lastPrototypeToggleMs = now;
+        prototypeVisible = !prototypeVisible;
+    }
+
+    function showPrototype(): void {
+        prototypeVisible = true;
+    }
+
+    function hidePrototype(): void {
+        prototypeVisible = false;
     }
 
     // --- Launchers ---
