@@ -1,7 +1,5 @@
 import QtQuick
 import QtQuick.Layouts
-import Quickshell
-import Quickshell.Io
 import "root:services"
 
 RowLayout {
@@ -14,12 +12,12 @@ RowLayout {
         text: ""
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: bluetoothProc.running = true
+            onClicked: Actions.launchBluetooth()
         }
     }
 
@@ -28,12 +26,12 @@ RowLayout {
         text: "󰤨"
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: wifiProc.running = true
+            onClicked: Actions.launchWifi()
         }
     }
 
@@ -42,12 +40,12 @@ RowLayout {
         text: ""
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: audioProc.running = true
+            onClicked: Actions.launchAudio()
         }
     }
 
@@ -56,32 +54,12 @@ RowLayout {
         text: "󰍛"
         color: Theme.foreground
         font.family: Theme.fontFamily
-        font.pixelSize: Theme.fontSize
+        font.pixelSize: Theme.iconSize
 
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
-            onClicked: btopProc.running = true
+            onClicked: Actions.launchBtop()
         }
-    }
-
-    Process {
-        id: bluetoothProc
-        command: ["sh", "-lc", "omarchy launch bluetooth"]
-    }
-
-    Process {
-        id: wifiProc
-        command: ["sh", "-lc", "omarchy launch wifi"]
-    }
-
-    Process {
-        id: audioProc
-        command: ["sh", "-lc", "omarchy launch audio"]
-    }
-
-    Process {
-        id: btopProc
-        command: ["sh", "-lc", "omarchy launch or focus tui btop"]
     }
 }

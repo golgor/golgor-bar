@@ -4,6 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 import "components"
 import "popouts"
+import "root:components" as SharedComponents
 import "root:services"
 
 PanelWindow {
@@ -15,7 +16,7 @@ PanelWindow {
         right: true
     }
 
-    implicitHeight: 32
+    implicitHeight: Theme.barHeight
     color: Theme.background
 
     exclusiveZone: implicitHeight + 4
@@ -37,18 +38,17 @@ PanelWindow {
         // Center section
         Clock {
             id: clock
-            onClicked: calendarPopout.toggle()
+            onClicked: Actions.toggleCalendar()
         }
 
         // Right spacer
         Item { Layout.fillWidth: true }
 
         // Right section
-        Tray {}
+        Tray { id: tray }
+        SharedComponents.Divider { visible: tray.implicitWidth > 0 }
         StatusIcons {}
     }
 
-    Calendar {
-        id: calendarPopout
-    }
+    Calendar {}
 }

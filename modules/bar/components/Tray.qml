@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.SystemTray
+import "root:services"
 
 RowLayout {
     id: root
@@ -15,15 +16,15 @@ RowLayout {
             required property var modelData
 
             implicitWidth: icon.implicitWidth
-            implicitHeight: bar.height
+            Layout.fillHeight: true
 
             Image {
                 id: icon
 
                 anchors.centerIn: parent
                 source: modelData.icon
-                sourceSize.width: 16
-                sourceSize.height: 16
+                sourceSize.width: Theme.iconSize
+                sourceSize.height: Theme.iconSize
             }
 
             MouseArea {

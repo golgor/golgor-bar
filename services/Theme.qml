@@ -29,4 +29,8 @@ QtObject {
 
     readonly property string fontFamily: GeneratedTheme.fontFamily ?? "CaskaydiaMono Nerd Font Mono"
     readonly property int fontSize: GeneratedTheme.fontSize ?? 12
+
+    // Bar layout
+    readonly property int barHeight: 40
+    readonly property int iconSize: 22
 }

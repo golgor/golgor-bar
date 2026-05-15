@@ -11,8 +11,7 @@ import "root:utils"
 PanelWindow {
     id: root
 
-    property bool showing: false
-    visible: showing
+    visible: Actions.calendarVisible
 
     // Full-screen transparent overlay — content is positioned inside
     anchors {
@@ -39,16 +38,8 @@ PanelWindow {
     HyprlandFocusGrab {
         id: focusGrab
         windows: [root, bar]
-        active: root.showing
-        onCleared: root.showing = false
-    }
-
-    function toggle(): void {
-        showing = !showing;
-    }
-
-    function close(): void {
-        showing = false;
+        active: Actions.calendarVisible
+        onCleared: Actions.calendarVisible = false
     }
 
     property int currentMonth: new Date().getMonth()
