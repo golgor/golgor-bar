@@ -1,5 +1,6 @@
 //@ pragma UseQApplication
 
+import QtQuick
 import "modules/bar"
 import Quickshell
 import Quickshell.Hyprland
