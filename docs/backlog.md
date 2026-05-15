@@ -9,7 +9,6 @@ Features discussed during design but explicitly deferred from v1.
 - ~~**Unified trigger system**~~ — ✅ `services/Actions.qml` singleton owns all actions. `GlobalShortcut` + `IpcHandler` in `shell.qml` provide hotkey and IPC triggers alongside click handlers.
 
 ## Bar Enhancements
-- **Auto-hide bar mode** — bar slides away, appears on hover/gesture. Design Bar/BarWrapper split to support this later.
 - **Window icons in workspace indicators** — show app icons for windows in each workspace (requires app-to-icon mapping).
 - **Special workspaces** — show Super+S (Slack) and Super+Q (Altus/WhatsApp) scratchpads in the bar.
 - **Tray popout** — expandable tray with richer per-item info.
@@ -29,4 +28,3 @@ Features discussed during design but explicitly deferred from v1.
 - **Config system** — JSON config file with schema, per-monitor overrides (modeled after Caelestia's `shell.json`).
 - **Notifications** — popup notifications + notification center.
 - **OSD** — volume/brightness on-screen display overlays.
-- **Launcher** — app launcher (keyboard-driven).

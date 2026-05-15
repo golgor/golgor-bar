@@ -20,6 +20,18 @@ ShellRoot {
         onPressed: Actions.toggleCalendar()
     }
 
+    // Refresh workspace/monitor state on events Quickshell doesn't handle natively
+    Connections {
+        target: Hyprland
+
+        function onRawEvent(event: HyprlandEvent): void {
+            if (["activespecial", "workspace", "moveworkspace", "focusedmon"].includes(event.name)) {
+                Hyprland.refreshWorkspaces();
+                Hyprland.refreshMonitors();
+            }
+        }
+    }
+
     // IPC — callable from scripts: qs ipc call bar toggleCalendar
     IpcHandler {
         target: "bar"
