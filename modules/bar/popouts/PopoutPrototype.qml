@@ -10,7 +10,7 @@ Item {
     id: root
 
     SharedComponents.Popout {
-        edge: "right"
+        edge: edgeRight
         popoutName: "proto-right"
         showing: Actions.prototypeVisible
         parentWindow: bar

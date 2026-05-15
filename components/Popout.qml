@@ -8,12 +8,27 @@ PanelWindow {
     id: root
 
     // --- Public API ---
+    // Usage:
+    // Popout {
+    //     edge: root.edgeRight
+    //     popoutName: "calendar"
+    //     showing: Actions.calendarVisible
+    //     glass: true
+    //     dismissOnFocusLoss: true
+    //     onDismissed: Actions.calendarVisible = false
+    // }
 
     // Control visibility — bind to an Actions property
     property bool showing: false
 
-    // Which screen edge to attach to: "top", "left", "right"
-    property string edge: "top"
+    // Internal visibility so exit animation can finish before window hides
+    property bool windowVisible: showing
+
+    // Edge constants + selected edge
+    readonly property int edgeTop: 0
+    readonly property int edgeLeft: 1
+    readonly property int edgeRight: 2
+    property int edge: edgeTop
 
     // Namespace suffix for WlrLayershell (must be unique per popout)
     property string popoutName: "popout"
@@ -42,7 +57,7 @@ PanelWindow {
 
     // --- Window setup ---
 
-    visible: root.showing
+    visible: root.windowVisible
 
     anchors {
         top: true
@@ -58,8 +73,8 @@ PanelWindow {
     WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
     mask: Region {
-        x: popoutBg.x
-        y: popoutBg.y
+        x: popoutBg.x + slideTransform.x
+        y: popoutBg.y + slideTransform.y
         width: popoutBg.width
         height: popoutBg.height
     }
@@ -68,6 +83,25 @@ PanelWindow {
         active: root.showing && root.dismissOnFocusLoss
         windows: root.parentWindow ? [root, root.parentWindow] : [root]
         onCleared: root.dismissed()
+    }
+
+    Timer {
+        id: hideTimer
+        interval: 350
+        repeat: false
+        onTriggered: {
+            if (!root.showing)
+                root.windowVisible = false;
+        }
+    }
+
+    onShowingChanged: {
+        if (showing) {
+            hideTimer.stop();
+            windowVisible = true;
+        } else {
+            hideTimer.restart();
+        }
     }
 
     // --- Popout body ---
@@ -81,9 +115,9 @@ PanelWindow {
         // Position: flush against the specified edge
         x: {
             switch (root.edge) {
-            case "right":
+            case root.edgeRight:
                 return parent.width - width;
-            case "left":
+            case root.edgeLeft:
                 return 0;
             default:
                 return (parent.width - width) / 2;
@@ -91,7 +125,7 @@ PanelWindow {
         }
         y: {
             switch (root.edge) {
-            case "top":
+            case root.edgeTop:
                 return Theme.barHeight - 1;
             default:
                 return (parent.height - height) / 2;
@@ -101,21 +135,27 @@ PanelWindow {
         // Corner radii: flat on the edge side, rounded on outer sides
         // One outer corner uses organicRadius for asymmetric feel
         topLeftRadius: {
-            if (root.edge === "top" || root.edge === "left") return 0;
+            if (root.edge === root.edgeTop || root.edge === root.edgeLeft)
+                return 0;
             return root.cornerRadius;
         }
         topRightRadius: {
-            if (root.edge === "top" || root.edge === "right") return 0;
+            if (root.edge === root.edgeTop || root.edge === root.edgeRight)
+                return 0;
             return root.cornerRadius;
         }
         bottomLeftRadius: {
-            if (root.edge === "left") return 0;
-            if (root.edge === "top") return root.cornerRadius;
+            if (root.edge === root.edgeLeft)
+                return 0;
+            if (root.edge === root.edgeTop)
+                return root.cornerRadius;
             return root.organicRadius;
         }
         bottomRightRadius: {
-            if (root.edge === "right") return 0;
-            if (root.edge === "top") return root.organicRadius;
+            if (root.edge === root.edgeRight)
+                return 0;
+            if (root.edge === root.edgeTop)
+                return root.organicRadius;
             return root.cornerRadius;
         }
 
@@ -136,9 +176,9 @@ PanelWindow {
 
         transformOrigin: {
             switch (root.edge) {
-            case "right":
+            case root.edgeRight:
                 return Item.Right;
-            case "left":
+            case root.edgeLeft:
                 return Item.Left;
             default:
                 return Item.Top;
@@ -156,14 +196,18 @@ PanelWindow {
             id: slideTransform
 
             x: {
-                if (root.showing) return 0;
+                if (root.showing)
+                    return 0;
                 switch (root.edge) {
-                case "right": return 80;
-                case "left": return -80;
-                default: return 0;
+                case root.edgeRight:
+                    return 80;
+                case root.edgeLeft:
+                    return -80;
+                default:
+                    return 0;
                 }
             }
-            y: root.edge === "top" && !root.showing ? -50 : 0
+            y: root.edge === root.edgeTop && !root.showing ? -50 : 0
 
             Behavior on x {
                 NumberAnimation { duration: 350; easing.type: Easing.OutBack }

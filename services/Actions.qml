@@ -16,11 +16,12 @@ QtObject {
         calendarVisible = !calendarVisible;
     }
 
+    readonly property int prototypeToggleDebounceMs: 250 // Prevent duplicate global shortcut toggle events.
     property double _lastPrototypeToggleMs: 0
 
     function togglePrototype(): void {
         const now = Date.now();
-        if (now - _lastPrototypeToggleMs < 250)
+        if (now - _lastPrototypeToggleMs < prototypeToggleDebounceMs)
             return;
 
         _lastPrototypeToggleMs = now;
