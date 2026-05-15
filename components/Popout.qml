@@ -16,7 +16,7 @@ PanelWindow {
     property string edge: "top"
 
     // Namespace suffix for WlrLayershell (must be unique per popout)
-    property string name: "popout"
+    property string popoutName: "popout"
 
     // Corner radii for the sides away from the edge
     property real cornerRadius: 16
@@ -32,11 +32,13 @@ PanelWindow {
     // Prevents clicks on the parent from dismissing the popout
     property var parentWindow: null
 
+    property bool dismissOnFocusLoss: true
+
     // Emitted when focus grab clears — caller should set showing = false
     signal dismissed()
 
     // Content slot
-    default property alias content: contentItem.data
+    default property alias content: contentSlot.data
 
     // --- Window setup ---
 
@@ -51,7 +53,7 @@ PanelWindow {
 
     color: "transparent"
     exclusiveZone: 0
-    WlrLayershell.namespace: "golgor-bar-" + root.name
+    WlrLayershell.namespace: "golgor-bar-" + root.popoutName
     WlrLayershell.layer: WlrLayer.Overlay
     WlrLayershell.exclusionMode: ExclusionMode.Ignore
 
@@ -63,7 +65,7 @@ PanelWindow {
     }
 
     HyprlandFocusGrab {
-        active: root.showing
+        active: root.showing && root.dismissOnFocusLoss
         windows: root.parentWindow ? [root, root.parentWindow] : [root]
         onCleared: root.dismissed()
     }
@@ -73,8 +75,8 @@ PanelWindow {
     Rectangle {
         id: popoutBg
 
-        width: contentItem.implicitWidth + root.contentPadding * 2
-        height: contentItem.implicitHeight + root.contentPadding * 2
+        width: contentSlot.implicitWidth + root.contentPadding * 2
+        height: contentSlot.implicitHeight + root.contentPadding * 2
 
         // Position: flush against the specified edge
         x: {
@@ -174,9 +176,13 @@ PanelWindow {
 
         // Content container
         Item {
-            id: contentItem
-            anchors.fill: parent
-            anchors.margins: root.contentPadding
+            id: contentSlot
+
+            x: root.contentPadding
+            y: root.contentPadding
+
+            implicitWidth: childrenRect.width
+            implicitHeight: childrenRect.height
         }
     }
 }

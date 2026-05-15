@@ -17,7 +17,7 @@ Item {
     // --- TOP CENTER: solid, chamfered classic ---
     SharedComponents.Popout {
         edge: "top"
-        name: "proto-top"
+        popoutName: "proto-top"
         showing: Actions.prototypeVisible
         parentWindow: bar
         cornerRadius: 20
@@ -41,7 +41,7 @@ Item {
     // --- RIGHT EDGE: glass, flush right ---
     SharedComponents.Popout {
         edge: "right"
-        name: "proto-right"
+        popoutName: "proto-right"
         showing: Actions.prototypeVisible
         parentWindow: bar
         glass: true
@@ -66,7 +66,7 @@ Item {
     // --- LEFT EDGE: solid, flush left ---
     SharedComponents.Popout {
         edge: "left"
-        name: "proto-left"
+        popoutName: "proto-left"
         showing: Actions.prototypeVisible
         parentWindow: bar
         cornerRadius: 16

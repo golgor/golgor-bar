@@ -16,8 +16,23 @@ QtObject {
         calendarVisible = !calendarVisible;
     }
 
+    property double _lastPrototypeToggleMs: 0
+
     function togglePrototype(): void {
+        const now = Date.now();
+        if (now - _lastPrototypeToggleMs < 250)
+            return;
+
+        _lastPrototypeToggleMs = now;
         prototypeVisible = !prototypeVisible;
+    }
+
+    function showPrototype(): void {
+        prototypeVisible = true;
+    }
+
+    function hidePrototype(): void {
+        prototypeVisible = false;
     }
 
     // --- Launchers ---
