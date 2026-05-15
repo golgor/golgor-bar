@@ -20,6 +20,7 @@ Item {
         popoutName: "proto-top"
         showing: Actions.prototypeVisible
         parentWindow: bar
+        dismissOnFocusLoss: false
         cornerRadius: 20
         organicRadius: 8
         onDismissed: Actions.prototypeVisible = false
@@ -44,6 +45,7 @@ Item {
         popoutName: "proto-right"
         showing: Actions.prototypeVisible
         parentWindow: bar
+        dismissOnFocusLoss: false
         glass: true
         cornerRadius: 16
         organicRadius: 6
@@ -69,6 +71,7 @@ Item {
         popoutName: "proto-left"
         showing: Actions.prototypeVisible
         parentWindow: bar
+        dismissOnFocusLoss: false
         cornerRadius: 16
         organicRadius: 6
         onDismissed: Actions.prototypeVisible = false
