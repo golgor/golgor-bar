@@ -39,6 +39,7 @@ RowLayout {
 
             MouseArea {
                 anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
                 onClicked: Hyprland.dispatch("workspace " + wsDelegate.modelData.id)
             }
         }
@@ -62,7 +63,8 @@ RowLayout {
 
             required property var modelData
 
-            readonly property string specialName: specialDelegate.modelData.name.slice(8)
+            readonly property string _prefix: "special:"
+            readonly property string specialName: specialDelegate.modelData.name.slice(_prefix.length)
             readonly property bool isShown: {
                 const active = Hyprland.focusedMonitor?.lastIpcObject?.specialWorkspace?.name ?? "";
                 return active === specialDelegate.modelData.name;
@@ -82,14 +84,15 @@ RowLayout {
                     case "altus":
                         return "\uf232"; // nf-fa-whatsapp
                     default:
-                        return specialDelegate.specialName[0].toUpperCase();
+                        return specialDelegate.specialName.length > 0
+                            ? specialDelegate.specialName[0].toUpperCase()
+                            : "?";
                     }
                 }
                 color: specialDelegate.isShown ? Theme.accent : Theme.foreground
                 font.family: Theme.fontFamily
                 font.pixelSize: Theme.iconSize
                 font.bold: specialDelegate.isShown
-                opacity: 1.0
             }
 
             MouseArea {
