@@ -9,8 +9,15 @@ QtObject {
     // --- Calendar ---
     property bool calendarVisible: false
 
+    // --- Prototype (throwaway — delete when done) ---
+    property bool prototypeVisible: false
+
     function toggleCalendar(): void {
         calendarVisible = !calendarVisible;
+    }
+
+    function togglePrototype(): void {
+        prototypeVisible = !prototypeVisible;
     }
 
     // --- Launchers ---

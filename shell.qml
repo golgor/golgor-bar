@@ -21,6 +21,14 @@ ShellRoot {
         onPressed: Actions.toggleCalendar()
     }
 
+    // Prototype toggle (throwaway — delete when done)
+    GlobalShortcut {
+        appid: "golgor-bar"
+        name: "togglePrototype"
+        description: "Toggle popout style prototype"
+        onPressed: Actions.togglePrototype()
+    }
+
     // Refresh workspace/monitor state on events Quickshell doesn't handle natively
     Connections {
         target: Hyprland
@@ -42,5 +50,6 @@ ShellRoot {
         function launchWifi(): void { Actions.launchWifi(); }
         function launchAudio(): void { Actions.launchAudio(); }
         function launchBtop(): void { Actions.launchBtop(); }
+        function togglePrototype(): void { Actions.togglePrototype(); }
     }
 }

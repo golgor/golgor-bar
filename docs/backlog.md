@@ -10,7 +10,7 @@ Features discussed during design but explicitly deferred from v1.
 
 ## Bar Enhancements
 - **Window icons in workspace indicators** — show app icons for windows in each workspace (requires app-to-icon mapping).
-- **Special workspaces** — show Super+S (Slack) and Super+Q (Altus/WhatsApp) scratchpads in the bar.
+- ~~**Special workspaces**~~ — ✅ Nerd Font icons for Slack/Altus, accent highlight when visible, click to toggle. Icons auto-show when apps are running.
 - **Tray popout** — expandable tray with richer per-item info.
 
 ## Indicators

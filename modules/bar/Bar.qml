@@ -51,4 +51,7 @@ PanelWindow {
     }
 
     Calendar {}
+
+    // PROTOTYPE — delete when done
+    PopoutPrototype {}
 }
